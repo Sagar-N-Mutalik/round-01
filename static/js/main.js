@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const socket = io();
 
-    // --- PAGE INITIALIZATION based on body class ---
     if (document.body.classList.contains('page-login')) {
         initLoginPage();
     } else if (document.body.classList.contains('page-lobby')) {
@@ -13,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// --- LOGIN PAGE LOGIC ---
 function initLoginPage() {
     const loginBtn = document.getElementById('loginBtn');
     const nameInput = document.getElementById('participantName');
@@ -23,15 +21,12 @@ function initLoginPage() {
     const attemptLogin = async () => {
         const name = nameInput.value.trim();
         const code = codeInput.value.trim();
-
         if (!name || !code) {
             errorMessage.textContent = "Name and Group Code are required.";
             return;
         }
-
         loginBtn.disabled = true;
         errorMessage.textContent = "";
-
         try {
             const response = await fetch('/api/login', {
                 method: 'POST',
@@ -39,8 +34,8 @@ function initLoginPage() {
                 body: JSON.stringify({ name, code })
             });
             const data = await response.json();
-
             if (data.success) {
+                sessionStorage.setItem('is_proctor', data.is_proctor);
                 window.location.href = '/lobby';
             } else {
                 errorMessage.textContent = data.message;
@@ -51,13 +46,11 @@ function initLoginPage() {
             loginBtn.disabled = false;
         }
     };
-
     loginBtn.addEventListener('click', attemptLogin);
     nameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') codeInput.focus(); });
     codeInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') attemptLogin(); });
 }
 
-// --- LOBBY PAGE LOGIC ---
 function initLobbyPage(socket) {
     const lobbyCard = document.querySelector('.lobby-card');
     const groupId = lobbyCard.dataset.groupId;
@@ -83,86 +76,109 @@ function initLobbyPage(socket) {
         });
     });
 
-    socket.on('round_started', () => {
-        // Add round_started to session storage to handle reloads
-        sessionStorage.setItem('round_started', 'true');
+    socket.on('round_started', (data) => {
+        sessionStorage.setItem('first_question', JSON.stringify(data));
         window.location.href = '/question';
     });
 
     if (startRoundBtn) {
         startRoundBtn.addEventListener('click', () => {
             startRoundBtn.disabled = true;
+            startRoundBtn.textContent = 'Round Started';
             socket.emit('start_round', { group_id: groupId });
         });
     }
 }
 
-// --- QUESTION PAGE LOGIC ---
 function initQuestionPage(socket) {
     const questionContainer = document.getElementById('questionContainer');
-    const gameOverContainer = document.getElementById('gameOverContainer');
+    const groupId = questionContainer.dataset.groupId;
+    const finalLeaderboardContainer = document.getElementById('finalLeaderboardContainer');
     const progressText = document.getElementById('progressText');
     const categoryText = document.getElementById('categoryText');
     const questionText = document.getElementById('questionText');
     const answerInput = document.getElementById('answerInput');
     const submitBtn = document.getElementById('submitAnswerBtn');
+    
+    const proctorControls = document.getElementById('proctorQuestionControls');
+    const proctorNextBtn = document.getElementById('proctorNextBtn');
+    const proctorLeaderboardBtn = document.getElementById('proctorLeaderboardBtn');
 
     const timerText = document.getElementById('timerText');
     const timerPath = document.getElementById('timer-path');
     const FULL_DASH_ARRAY = 283;
-    let timeLimit = 60;
-    let timePassed = 0;
-    let timerInterval = null;
+    let timeLimit = 60, timePassed = 0, timerInterval = null;
     
     const resultModal = document.getElementById('resultModal');
     const resultTitle = document.getElementById('resultTitle');
     const resultPoints = document.getElementById('resultPoints');
     const correctAnswerText = document.getElementById('correctAnswerText');
-    const nextQuestionBtn = document.getElementById('nextQuestionBtn');
     
     let currentQuestionIndex = -1;
+    const isProctor = sessionStorage.getItem('is_proctor') === 'true';
 
-    socket.on('connect', () => {
-        socket.emit('get_question');
-    });
+    const firstQuestionData = JSON.parse(sessionStorage.getItem('first_question'));
+    if (firstQuestionData) {
+        currentQuestionIndex = 0;
+        displayQuestion({ 
+            question: firstQuestionData.first_question, 
+            q_index: 0,
+            total_q: firstQuestionData.total_q
+        });
+        sessionStorage.removeItem('first_question');
+    }
 
     socket.on('current_question', (data) => {
-        if (data.q_index === currentQuestionIndex) return;
         currentQuestionIndex = data.q_index;
         displayQuestion(data);
     });
     
     socket.on('answer_result', (data) => {
-        clearInterval(timerInterval);
-        showResult(data);
+        if (!isProctor) {
+            clearInterval(timerInterval);
+            showResult(data);
+        }
     });
 
     socket.on('game_over', () => {
         questionContainer.style.display = 'none';
-        gameOverContainer.style.display = 'block';
-        clearInterval(timerInterval);
+        socket.emit('get_final_scores', { group_id: groupId });
+    });
+
+    socket.on('final_scores', (data) => {
+        displayFinalLeaderboard(data.scores);
     });
 
     function displayQuestion(data) {
+        resultModal.style.display = 'none';
         questionContainer.style.display = 'block';
         answerInput.value = '';
         answerInput.disabled = false;
         submitBtn.disabled = false;
+        submitBtn.style.display = 'block';
+        answerInput.style.display = 'block';
+        proctorControls.style.display = 'none';
         
         const { question, q_index, total_q } = data;
         progressText.textContent = `Question ${q_index + 1} of ${total_q}`;
         categoryText.textContent = question.category;
         questionText.textContent = question.question;
         
+        if (isProctor) {
+            answerInput.style.display = 'none';
+            submitBtn.style.display = 'none';
+            proctorControls.style.display = 'flex';
+        }
+
         timeLimit = question.time_limit;
         startTimer();
-        answerInput.focus();
+        if (!isProctor) answerInput.focus();
     }
     
     function submitAnswer() {
         const answer = answerInput.value;
-        if (!answer.trim() || submitBtn.disabled) return;
-
+        if (isProctor || submitBtn.disabled) return;
+        
         clearInterval(timerInterval);
         answerInput.disabled = true;
         submitBtn.disabled = true;
@@ -184,10 +200,20 @@ function initQuestionPage(socket) {
         resultModal.style.display = 'flex';
     }
     
-    nextQuestionBtn.addEventListener('click', () => {
-        resultModal.style.display = 'none';
-        socket.emit('get_question');
-    });
+    if (proctorNextBtn) {
+        proctorNextBtn.addEventListener('click', () => {
+            socket.emit('proctor_next_question', {
+                group_id: groupId,
+                q_index: currentQuestionIndex
+            });
+        });
+    }
+
+    if (proctorLeaderboardBtn) {
+        proctorLeaderboardBtn.addEventListener('click', () => {
+            window.open(`/scoreboard/${groupId}`, '_blank');
+        });
+    }
 
     function startTimer() {
         timePassed = -1;
@@ -210,12 +236,39 @@ function initQuestionPage(socket) {
         let seconds = timeLeft % 60;
         timerText.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
         const fraction = timeLeft / timeLimit;
-        const offset = fraction * FULL_DASH_ARRAY;
-        timerPath.style.strokeDashoffset = (1 - fraction) * FULL_DASH_ARRAY;
+        const offset = (1 - fraction) * FULL_DASH_ARRAY;
+        timerPath.style.strokeDashoffset = offset;
+    }
+
+    function displayFinalLeaderboard(scores) {
+        finalLeaderboardContainer.style.display = 'block';
+        const finalScoreList = document.getElementById('finalScoreList');
+        finalScoreList.innerHTML = '';
+
+        if (scores.length === 0) {
+            finalScoreList.innerHTML = '<p>No scores recorded.</p>';
+            return;
+        }
+
+        scores.forEach((player, index) => {
+            const rank = index + 1;
+            const row = document.createElement('div');
+            row.className = 'score-row';
+            
+            if (rank <= 2) {
+                row.classList.add('winner');
+            }
+
+            row.innerHTML = `
+                <span class="score-rank">${rank}</span>
+                <span class="score-name">${player.name}</span>
+                <span class="score-points">${player.score}</span>
+            `;
+            finalScoreList.appendChild(row);
+        });
     }
 }
 
-// --- SCOREBOARD PAGE LOGIC ---
 function initScoreboardPage(socket) {
     const scoreboardCard = document.querySelector('.scoreboard-card');
     const groupId = scoreboardCard.dataset.groupId;
@@ -232,7 +285,7 @@ function initScoreboardPage(socket) {
     function renderScores(scores) {
         scoreList.innerHTML = '';
         if (scores.length === 0) {
-            scoreList.innerHTML = '<p>No scores yet. The round may not have started.</p>';
+            scoreList.innerHTML = '<p>No scores yet.</p>';
             return;
         }
         scores.forEach((player, index) => {

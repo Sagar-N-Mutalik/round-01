@@ -1,26 +1,202 @@
 [
   [
-    { "category": "Tech Riddle", "question": "Group 1: I have keys, but open no doors...", "answer": "keyboard", "time_limit": 180 },
-    { "category": "Maths Problem", "question": "Group 1: A bat and a ball cost ₹110...", "answer": "5", "time_limit": 300 },
-    { "category": "Reasoning Puzzle", "question": "Group 1: Placeholder", "answer": "answer", "time_limit": 180 },
-    { "category": "Sequence Recall", "question": "Group 1: Placeholder", "answer": "answer", "time_limit": 120 },
-    { "category": "Sudoku", "question": "Group 1: Placeholder", "answer": "answer", "time_limit": 300 },
-    { "category": "Bonus", "question": "Group 1: Placeholder", "answer": "answer", "time_limit": 600 }
+    { "category": "Tech Riddle", "question": "I follow you all day but disappear at night. I mimic your every move, yet you never see me. What am I?", "answer": "A shadow", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "Three friends book a hotel room for ₹300. Each pays ₹100. Later, the manager realizes the correct cost is ₹250 and sends ₹50 back with the bellboy. The bellboy keeps ₹20 and gives ₹10 to each friend. Now, each friend paid ₹90 (total ₹270). The bellboy has ₹20, making ₹290. Where did the other ₹10 go?", "answer": "The logic is flawed", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "Four friends — Arjun, Priya, Kavya, and Mohan — are sitting around a table. Arjun is sitting directly opposite Priya. Kavya is to Arjun’s left. Mohan is not sitting next to Priya. Who is sitting to Priya’s right?", "answer": "Mohan", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [3, _, 4, _] [_, 1, _, 2] [4, _, 1, _] [_, 3, _, 4]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 8, 27, 5, 12, 43, 6, 91, 3, 18, 54, 7, 11, 39, 10, 25", "answer": "359", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: Find the next prime after 31. (Use this as Key 1). Step 2: Sum the digits of Key 1 to get Key 2. Step 3: Shift the letter 'M' forward by Key 2 positions (A=1). What is the final letter?", "answer": "W", "time_limit": 600 }
   ],
   [
-    { "category": "Tech Riddle", "question": "Group 2: What has a thumb and four fingers...", "answer": "glove", "time_limit": 180 },
-    { "category": "Maths Problem", "question": "Group 2: I am an odd number...", "answer": "seven", "time_limit": 180 },
-    { "category": "Reasoning Puzzle", "question": "Group 2: Placeholder", "answer": "answer", "time_limit": 180 },
-    { "category": "Sequence Recall", "question": "Group 2: Placeholder", "answer": "answer", "time_limit": 120 },
-    { "category": "Sudoku", "question": "Group 2: Placeholder", "answer": "answer", "time_limit": 300 },
-    { "category": "Bonus", "question": "Group 2: Placeholder", "answer": "answer", "time_limit": 600 }
+    { "category": "Tech Riddle", "question": "I am a one-time pad, unbreakable if used right. Lose me once, and security takes flight. What am I?", "answer": "Encryption key", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "An engineering student drives 60 km to university at 60 km/h and returns at 30 km/h. What is the average speed for the whole trip?", "answer": "40 km/h", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "A brother is 4 years older than his sister. Five years ago, he was twice her age. How old is the sister now?", "answer": "9", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [_, 1, _, 4] [2, _, 3, _] [_, 4, _, 1] [3, _, 2, _]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 13, 2.5, 40, 9, 101, 7.5, 28, 66, 4, 19, 0.5, 33", "answer": "323.5", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: Calculate 6! / (4! * 2!). (Use this as Key 1). Step 2: Multiply Key 1 by 2 to get Key 2. Step 3: Use Key 2 as a 1-based index into 'ALGORITHM' (wrap if needed). What is the final letter?", "answer": "G", "time_limit": 600 }
   ],
   [
-    { "category": "Tech Riddle", "question": "Group 3: Placeholder", "answer": "answer", "time_limit": 180 },
-    { "category": "Maths Problem", "question": "Group 3: Placeholder", "answer": "answer", "time_limit": 300 },
-    { "category": "Reasoning Puzzle", "question": "Group 3: Placeholder", "answer": "answer", "time_limit": 180 },
-    { "category": "Sequence Recall", "question": "Group 3: Placeholder", "answer": "answer", "time_limit": 120 },
-    { "category": "Sudoku", "question": "Group 3: Placeholder", "answer": "answer", "time_limit": 300 },
-    { "category": "Bonus", "question": "Group 3: Placeholder", "answer": "answer", "time_limit": 600 }
+    { "category": "Tech Riddle", "question": "I start with 'P' and end with 'E,' and I have thousands of lines. What am I?", "answer": "A program", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "Pipe A fills a tank in 4 hours. Pipe B fills it in 6 hours. Both are opened for 1 hour, then A is closed. How long will B take to finish?", "answer": "3.5 hours", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "You have 3 bags labelled “Gold”, “Silver”, “Mixed”, but all labels are wrong. You can draw one coin from one bag to identify all. Which bag do you pick from?", "answer": "The bag labelled Mixed", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [1, _, 2, _] [_, 3, _, 4] [3, _, 4, _] [_, 2, _, 1]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: -5, 17, 33, -12, 8, 46, 9, 71, -3, 20, 15, 12", "answer": "211", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: How many distinct letters in 'ASSESSMENT'? (Key 1). Step 2: Square Key 1 to get Key 2. Step 3: (Key 2 modulo 26) gives a 1-based alphabet position. What is the letter?", "answer": "J", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "I can be cracked, made, told, and played. What am I?", "answer": "Code", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "You have two ropes that each burn completely in 1 hour, but not at a uniform rate. How can you measure exactly 45 minutes?", "answer": "Light rope 1 at both ends and rope 2 at one end", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "A says: “B is a liar.” B says: “We are both truth-tellers.” Who is telling the truth?", "answer": "A", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [4, _, _, 1] [_, 2, 3, _] [_, 1, 4, _] [2, _, _, 3]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 100, 3, 0.5, 76, 22, 9.5, 18, 7, 43, 5, 31, 8, 4", "answer": "327", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: If a clock shows 3:15, what is the smaller angle between the hands? (Key 1 in degrees). Step 2: Divide Key 1 by 1.5 to get Key 2. Step 3: Key 2 as a 1-based index into 'PUZZLES' gives which letter?", "answer": "L", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "I am always running but never get tired. I manage processes but don’t breathe. What am I?", "answer": "A CPU", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "Two identical 6V bulbs are in series with a 12V battery. One bulb is replaced by a wire. What happens to the other bulb?", "answer": "It gets brighter and may burn out", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "At what time between 3 and 4 o’clock do the hour and minute hands overlap?", "answer": "3:16", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [_, 3, 1, _] [1, _, _, 2] [2, _, _, 4] [_, 4, 3, _]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 9, 81, 17, 6, 24, 100, 12, 3, 5, 15, 42, 29, 7", "answer": "350", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: Sum of proper divisors of 28 (excluding 28). (Key 1). Step 2: Count the number of letters in the English word for Key 1 (Key 2). Step 3: Find the Key 2-th letter of 'MATHEMATICS'.", "answer": "S", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "I have keys but no locks, space but no room, and you can enter but not go inside. What am I?", "answer": "A keyboard", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "A 200m long train travels at 40 m/s. A tunnel is 1000m long. How long does it take for the entire train to pass through the tunnel?", "answer": "30 seconds", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "A train 120m long moves at 60 km/h. How long to pass a pole?", "answer": "7.2 seconds", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [_, 2, _, 3] [3, _, 1, _] [_, 1, _, 4] [4, _, 2, _]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 0.5, 1.5, 2.25, 4.75, 8, 16, 32, 0.75, 3.5, 6.25, 9.125", "answer": "84.625", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: Solve for x in 2x + 3 = 13. (Key 1). Step 2: Calculate the factorial of Key 1. (Key 2). Step 3: Sum the digits of Key 2.", "answer": "3", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?", "answer": "An echo", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "A monkey and a weight of equal mass hang from opposite ends of a rope over a frictionless pulley. If the monkey climbs the rope, what does the weight do?", "answer": "It does not move", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "Four students — an artist, a coder, a climber, and a dancer — sit in a row. The coder is left of the dancer. The climber is not at an end. The artist is between the coder and climber. What is the order?", "answer": "Coder, Artist, Climber, Dancer", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [2, _, 4, _] [_, 1, _, 3] [3, _, 2, _] [_, 4, _, 1]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 250, -50, 25, -25, 10, 5, 100, -10, 60, -5, 15", "answer": "375", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: Count prime numbers less than 20. (Key 1). Step 2: Key 2 = (Key 1 * 2) + 1. Step 3: Use Key 2 as a 1-based index into 'PUZZLING' (wrap if needed). Which letter?", "answer": "P", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "I am taken from a mine and shut in a wooden case, from which I am never released, yet I am used by almost every person. What am I?", "answer": "Pencil lead", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "A plate’s length is 2.30m (3 significant figures) and width is 1.5m (2 significant figures). What is the area reported with correct significant figures?", "answer": "3.4 m^2", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "You have two identical boxes with a light bulb inside each. One has a switch with a 10-second delay. You can flip each switch once then open both boxes. How do you identify the delayed one?", "answer": "Flip one, wait 10s, flip the other, open both", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [_, 4, _, 2] [1, _, 3, _] [_, 2, _, 4] [4, _, 1, _]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3", "answer": "36", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: What is the GCD of 48 and 18? (Key 1). Step 2: Key 2 = Key 1 + 4. Step 3: Key 2 as a 1-based index into 'REASON'. Which letter?", "answer": "S", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "The more you take, the more you leave behind. What am I?", "answer": "Footsteps", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "Two resistors, 2 Ω and 8 Ω, are connected in parallel. Which resistor carries more current and why?", "answer": "The 2 Ohm resistor", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "A farmer must carry a wolf, a goat, and a cabbage across a river in a boat that holds only him and one item. The wolf eats the goat, the goat eats the cabbage if left alone. What is the minimum number of crossings?", "answer": "7", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [3, _, 2, _] [_, 4, _, 1] [1, _, 4, _] [_, 2, _, 3]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 11, 22, 33, 44, 55, 66, 77, 88, 99, 110", "answer": "605", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: (Edges on a cube) - (Faces on a cube). (Key 1). Step 2: Key 2 = Key 1 * 3. Step 3: Key 2 as a 1-based index into 'LOGIC' (wrap). Which letter?", "answer": "G", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "I fly without wings, I cry without eyes. Wherever I go, darkness follows me. What am I?", "answer": "A cloud", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "A pump can fill a tank in 5 hours, but a leak can empty it in 20 hours. If both are active, how long will it take to fill the tank?", "answer": "6.67 hours", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "10L of 10% salt solution is mixed with 20L of 40% salt solution. What is the final concentration?", "answer": "30%", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [_, 1, _, 2] [4, _, 1, _] [_, 3, _, 4] [2, _, 3, _]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 0.1, 0.2, 0.3, 0.4, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0", "answer": "32.5", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: Smallest even composite number. (Key 1). Step 2: Key 2 = Key 1 squared. Step 3: Sum the digits of Key 2.", "answer": "7", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "I can be a guardian or a thief. I hide in plain sight, yet you may never see me. What am I?", "answer": "A hacker", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "An engineer scores 90% on a test with 20% weight and 70% on a test with 80% weight. What is the final percentage?", "answer": "74%", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "A and B together finish a job in 6 hours. A alone takes 10 hours. How long would B take alone?", "answer": "15 hours", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [1, _, _, 4] [_, 2, 3, _] [3, _, _, 2] [_, 4, 1, _]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 37, -12, 5, 0, 18, 29, -7, 44, 11, -3, 20", "answer": "142", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: How many letters in 'SYMMETRY'? (Key 1). Step 2: Key 2 = Key 1 - 3. Step 3: Find the Key 2-th letter of 'PATTERN'.", "answer": "E", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "I have many eyes but cannot see, many ears but cannot hear. I store secrets but cannot speak. What am I?", "answer": "A server", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "If a component price increases by 50% and then decreases by 50%, is it back to the original price?", "answer": "No", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "A clock loses 5 minutes every hour. If set right at noon, what time will it show when the true time is 4:00 PM?", "answer": "3:40 PM", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [_, 3, 2, _] [2, _, _, 4] [4, _, _, 1] [_, 1, 3, _]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 14, 28, 42, 56, 70, 84, 98, 112, 126, 140, 154", "answer": "924", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: If a polygon's interior angles sum to 540 degrees, how many sides does it have? (Key 1). Step 2: Key 2 = Key 1 - 2. Step 3: Find the Key 2-th letter of 'PUZZLES'.", "answer": "Z", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "The person who makes me has no need for me. The person who buys me won’t use me. The person who uses me won’t know it. What am I?", "answer": "A honeypot", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "Two identical 12V batteries are connected in series. What is the resulting voltage and capacity?", "answer": "24V, same capacity", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "You have 8 coins, one is heavier. Using a balance scale, what is the minimum number of weighings to find it?", "answer": "2", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [3, _, 4, _] [_, 2, _, 1] [2, _, 1, _] [_, 3, _, 2]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60", "answer": "390", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: How many degrees in a straight line? (Key 1). Step 2: Sum the digits of Key 1. (Key 2). Step 3: Use Key 2 as a 1-based index into 'BINARY' (wrap). Which letter?", "answer": "N", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "I am a shield yet not made of metal. I block attacks but cannot strike back. What am I?", "answer": "A firewall", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "You have 8 identical-looking coins; one is heavier. What is the fewest weighings needed with a balance scale to find it?", "answer": "2 weighings", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "Three wires go to two lamps A and B. A switch toggles them in an unknown pattern. What is the minimum number of toggles to identify which wires go to which lamp?", "answer": "2", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [_, 1, 2, _] [3, _, _, 4] [_, 2, _, 3] [4, _, 1, _]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024", "answer": "2046", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: Number of minutes in half an hour. (Key 1). Step 2: Key 2 = Key 1 + 7. Step 3: Use Key 2 as a 1-based index into 'SCIENCE' (wrap). Which letter?", "answer": "C", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "I travel the world without moving an inch. I can be in multiple places at once, yet I weigh nothing. What am I?", "answer": "A website", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "Mix 10L of 10% salt solution with 20L of 40% salt solution. What is the resulting concentration?", "answer": "30%", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "A machine makes 120 widgets/hr for 2 hrs, then 80/hr for 3 hrs. What is the average production rate over 5 hours?", "answer": "96 widgets/hour", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [4, _, 3, _] [_, 1, _, 2] [2, _, 1, _] [_, 3, _, 4]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 7.5, 2.5, -1.0, 13.75, 0.25, 9.5, 6.0, 4.75, 11.0, -2.25", "answer": "52", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: Calculate 11 - 7. (Key 1). Step 2: Calculate 3 to the power of Key 1. (Key 2). Step 3: Sum the digits of Key 2.", "answer": "9", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "I learn from all, yet I have no mind. I improve with data, but I don’t understand. What am I?", "answer": "A machine learning model", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "A gear with 20 teeth drives another with 80 teeth. If the smaller gear spins at 600 rpm, what is the speed of the larger gear?", "answer": "150 rpm", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "A gear with 15 teeth drives a gear with 45 teeth. If the small gear turns at 900 rpm, how fast does the large gear turn?", "answer": "300 rpm", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [_, 4, 2, _] [3, _, _, 1] [_, 2, _, 3] [1, _, 4, _]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 19, 23, 29, 31, 37, 41, 43, 47, 53, 59", "answer": "382", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: How many months have fewer than 31 days? (Key 1). Step 2: Key 2 = Key 1 * 2. Step 3: Use Key 2 as a 1-based index into 'NUMBER' (wrap). Which letter?", "answer": "B", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "I am not alive, but I can grow. I don’t have lungs, but I need air. I don’t have a mouth, but I can die. What am I?", "answer": "A blockchain", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "A uniform 1m plank of mass 2kg has an extra 1kg mass fixed 0.2m from the left end. Where is the center of mass from the left end?", "answer": "0.4 m", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "Two identical bulbs in series on 12V glow normally. One is replaced by a short wire. Does the remaining bulb get brighter or dimmer?", "answer": "Brighter", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [2, _, 1, _] [_, 3, _, 4] [4, _, 3, _] [_, 1, _, 2]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: -1, -2, -3, -4, -5, -6, -7, -8, -9, -10", "answer": "-55", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: Smallest 2-digit prime number. (Key 1). Step 2: Key 2 = Key 1 - 9. Step 3: Find the Key 2-th letter of 'ALERT'.", "answer": "L", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "I am a paradox—trusted yet doubted, transparent yet hidden, decentralized yet controlled. What am I?", "answer": "Cryptocurrency", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "How many people are needed for a greater than 50% chance that two share the same birthday?", "answer": "23 people", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "Three friends (Ravi, Suma, Tina) drive red, blue, green cars. Ravi doesn’t drive blue; the green driver is female; Suma drives neither red nor green. Who drives which?", "answer": "Suma=blue, Tina=green, Ravi=red", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [_, 2, 3, _] [4, _, _, 1] [_, 1, _, 2] [3, _, 4, _]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 100", "answer": "125", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: If x^2 = 49, take positive x. (Key 1). Step 2: Key 2 = Key 1 + 5. Step 3: Find the Key 2-th letter of 'PUZZLE' (wrap).", "answer": "E", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "I exist everywhere and nowhere. I can be copied infinitely but stolen only once. What am I?", "answer": "Digital data", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "What is the pressure at the bottom of a 10m water column? (ρ ≈ 1000 kg/m³, g ≈ 9.81 m/s²)", "answer": "98.1 kPa", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "A 5m ladder slides: bottom moves away at 0.5 m/s; when bottom is 3m from wall, how fast is top moving?", "answer": "-0.375 m/s", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [1, _, _, 3] [_, 4, 2, _] [2, _, 4, _] [_, 3, _, 1]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 3.14, 2.71, 1.62, 4.67, 0.577, 1.414, 2.236, 3.1415", "answer": "19.5085", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: How many sides in a regular octagon? (Key 1). Step 2: Key 2 = Key 1 / 2. Step 3: Find the Key 2-th letter of 'MATH'.", "answer": "H", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "I am a bridge between human and machine, turning thoughts into actions without a single word. What am I?", "answer": "A brain-computer interface", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "A 5m ladder leans against a wall. The bottom slides away at 0.5 m/s. When the bottom is 3m from the wall, how fast is the top sliding down?", "answer": "-0.375 m/s", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "Approximately how many people are needed in a room for a >50% chance that two share a birthday?", "answer": "23", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [_, 3, 4, _] [2, _, _, 1] [_, 1, _, 3] [4, _, 2, _]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 88, 77, 66, 55, 44, 33, 22, 11, 0, -11, -22", "answer": "363", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: Calculate 14 / 7. (Key 1). Step 2: Key 2 = Key 1 + 5. Step 3: Find the Key 2-th letter of 'PUZZLER'.", "answer": "R", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "I wake up your machine, I put programs in line. Without me, your hardware is silent and blind. What am I?", "answer": "Operating System", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "Three friends share 60 chocolates. A gets 1/3, B gets 1/4, and C gets the rest. How many does C get?", "answer": "25", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "Five friends — A, B, C, D, and E — sit in a row. A is to the immediate right of B. C is at one end. D is not next to A or C. Who sits in the middle?", "answer": "A", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [4, _, 1, _] [_, 3, _, 2] [3, _, 2, _] [_, 1, _, 4]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 1, 2, 4, 8, 16, 32, 64", "answer": "127", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: What is the capital of France? (Key 1, as a word). Step 2: Count the letters in Key 1. (Key 2). Step 3: Find the Key 2-th letter of the alphabet.", "answer": "E", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "I am made of black and white, yet I hold more than meets the eye. Point your camera at me, and secrets fly. What am I?", "answer": "A QR code", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "A and B together can complete a job in 8 days. A alone can do it in 12 days. How long will B alone take?", "answer": "24 days", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "Pointing to a woman, a man said: “Her mother is the daughter of my mother.” How is the man related to the woman?", "answer": "Uncle", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [_, 2, _, 4] [1, _, 3, _] [_, 4, _, 1] [3, _, 2, _]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 10, 20, 30, 40, 50", "answer": "150", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: How many states are in the USA? (Key 1). Step 2: Key 2 = Key 1 / 10. Step 3: Find the Key 2-th letter of 'AMERICA'.", "answer": "R", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "I eat when I work, I sleep when I’m drained. Plug me in and I live again. What am I?", "answer": "A battery", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "A sum of ₹5000 is lent at 10% simple interest per annum. After 3 years, what is the total amount to be paid back?", "answer": "₹6500", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "A cube is painted on all six faces and then cut into 64 equal small cubes. How many small cubes will have exactly 2 faces painted?", "answer": "24", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [2, _, 3, _] [_, 4, _, 1] [3, _, 1, _] [_, 2, _, 4]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 9, 18, 27, 36, 45", "answer": "135", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: How many rings are on the Olympic flag? (Key 1). Step 2: Key 2 = Key 1 * 5. Step 3: Sum the digits of Key 2.", "answer": "7", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "I’m not a machine, yet I can solve. Give me steps, and I’ll evolve. What am I?", "answer": "An algorithm", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "A 120m long train runs at 36 km/h. How long will it take to pass a man walking at 6 km/h in the same direction?", "answer": "14.4 seconds", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "A man walks 3 km north, then 4 km east, then 5 km south. How far is he from his starting point?", "answer": "4.47 km", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [_, 1, 4, _] [3, _, _, 2] [_, 4, _, 1] [2, _, 3, _]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 1.1, 2.2, 3.3, 4.4, 5.5", "answer": "16.5", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: What is the boiling point of water in Celsius? (Key 1). Step 2: Key 2 = Key 1 / 20. Step 3: Find the Key 2-th letter of 'SCIENCE'.", "answer": "N", "time_limit": 600 }
+  ],
+  [
+    { "category": "Tech Riddle", "question": "I fly without a pilot, I see from the sky. I’m used in wars and deliveries—tell me, what am I?", "answer": "A drone", "time_limit": 180 },
+    { "category": "Maths Problem", "question": "A student scores 60, 75, 80, and 85 in four subjects. What should he score in the fifth subject to get an average of 75?", "answer": "75", "time_limit": 300 },
+    { "category": "Reasoning Puzzle", "question": "In a certain code, NOTE is written as OPUF. How is MATH written in that code?", "answer": "NBUI", "time_limit": 300 },
+    { "category": "Sudoku", "question": "Complete the 4x4 Sudoku Grid: [1, _, 3, _] [_, 2, _, 4] [4, _, 2, _] [_, 3, _, 1]", "answer": "1,2,3,4 in some order in each row, column and 2x2 box", "time_limit": 300 },
+    { "category": "Sequence Recall", "question": "Memorize and find the sum of this sequence: 50, 45, 40, 35, 30", "answer": "200", "time_limit": 300 },
+    { "category": "Bonus", "question": "Step 1: How many colors are in a rainbow? (Key 1). Step 2: Key 2 = Key 1 * 4. Step 3: Sum the digits of Key 2.", "answer": "10", "time_limit": 600 }
   ]
 ]

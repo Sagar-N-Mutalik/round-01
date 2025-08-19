@@ -12,32 +12,34 @@ socketio = SocketIO(app)
 # --- WEB ROUTES ---
 @app.route('/')
 def index():
-    """Render the login page."""
     return render_template('index.html')
 
 @app.route('/logout')
 def logout():
-    """Clear session and redirect to login."""
     session.clear()
     return redirect(url_for('index'))
     
 @app.route('/lobby')
 def lobby():
-    """Render the waiting lobby for a group."""
     if 'participant_id' not in session:
         return redirect(url_for('index'))
     return render_template('lobby.html', session=session)
 
 @app.route('/question')
 def question():
-    """Render the question page."""
-    if 'participant_id' not in session or not session.get('round_started', False):
+    if 'participant_id' not in session:
+        return redirect(url_for('index'))
+    
+    conn = db.get_db_connection()
+    group = conn.execute('SELECT round_started FROM groups WHERE id = ?', (session['group_id'],)).fetchone()
+    conn.close()
+    if not group or not group['round_started']:
         return redirect(url_for('lobby'))
+
     return render_template('question.html', session=session)
     
 @app.route('/scoreboard/<int:group_id>')
 def scoreboard(group_id):
-    """Render a dedicated scoreboard page for a group."""
     conn = db.get_db_connection()
     group = conn.execute('SELECT name FROM groups WHERE id = ?', (group_id,)).fetchone()
     conn.close()
@@ -48,25 +50,23 @@ def scoreboard(group_id):
 # --- SOCKETIO EVENTS ---
 @socketio.on('join_lobby')
 def handle_join_lobby(data):
-    """Handle a user joining a lobby."""
     group_id = data.get('group_id')
     if not group_id: return
     join_room(f"group_{group_id}")
-    update_lobby_players(group_id)
+    update_lobby_players(int(group_id))
 
 @socketio.on('join_scoreboard')
 def handle_join_scoreboard(data):
-    """Handle a client joining the scoreboard page."""
     group_id = data.get('group_id')
     if not group_id: return
     join_room(f"group_{group_id}")
-    update_scoreboard(group_id)
+    update_scoreboard(int(group_id))
 
 @socketio.on('start_round')
 def handle_start_round(data):
-    """Handle proctor starting the round."""
-    group_id = data.get('group_id')
-    if not group_id or not session.get('is_proctor'): return
+    group_id_str = data.get('group_id')
+    if not group_id_str or not session.get('is_proctor'): return
+    group_id = int(group_id_str)
 
     conn = db.get_db_connection()
     conn.execute('UPDATE groups SET round_started = TRUE WHERE id = ?', (group_id,))
@@ -74,33 +74,47 @@ def handle_start_round(data):
     conn.close()
     
     room = f"group_{group_id}"
-    socketio.emit('round_started', {'message': 'The round has begun!'}, room=room)
-
-@socketio.on('get_question')
-def handle_get_question():
-    """Serve the current question to a participant."""
-    if 'participant_id' not in session: return
-        
-    participant_id, group_id = session['participant_id'], session['group_id']
-    conn = db.get_db_connection()
-    participant = conn.execute('SELECT current_question FROM participants WHERE id = ?', (participant_id,)).fetchone()
+    questions = db.get_questions()
+    group_questions = questions[group_id - 1]
+    first_question = group_questions[0]
     
-    if participant:
-        questions = db.get_questions()
-        group_questions = questions[group_id - 1]
-        q_index = participant['current_question']
+    socketio.emit('round_started', {
+        'first_question': first_question,
+        'total_q': len(group_questions)
+    }, room=room)
+
+# **FIXED**: Proctor-controlled next question logic
+@socketio.on('proctor_next_question')
+def handle_proctor_next_question(data):
+    if not session.get('is_proctor'): return
+    
+    group_id = int(data.get('group_id'))
+    current_q_index = int(data.get('q_index'))
+    next_q_index = current_q_index + 1
+    
+    room = f"group_{group_id}"
+    questions = db.get_questions()
+    group_questions = questions[group_id - 1]
+    
+    if next_q_index < len(group_questions):
+        # **NEW**: Advance all participants in the group to the next question
+        conn = db.get_db_connection()
+        conn.execute('UPDATE participants SET current_question = ? WHERE group_id = ? AND is_proctor = FALSE', (next_q_index, group_id))
+        conn.commit()
+        conn.close()
         
-        if q_index < len(group_questions):
-            question_data = group_questions[q_index]
-            emit('current_question', {'question': question_data, 'q_index': q_index, 'total_q': len(group_questions)})
-        else:
-            emit('game_over', {'message': 'You have completed all questions!'})
-    conn.close()
+        question_data = group_questions[next_q_index]
+        socketio.emit('current_question', {
+            'question': question_data, 
+            'q_index': next_q_index, 
+            'total_q': len(group_questions)
+        }, room=room)
+    else:
+        socketio.emit('game_over', {'message': 'The round has ended!'}, room=room)
 
 @socketio.on('submit_answer')
 def handle_submit_answer(data):
-    """Process a submitted answer and award points."""
-    if 'participant_id' not in session: return
+    if 'participant_id' not in session or session.get('is_proctor'): return
 
     participant_id, group_id = session['participant_id'], session['group_id']
     q_index = data.get('q_index')
@@ -108,42 +122,45 @@ def handle_submit_answer(data):
 
     questions = db.get_questions()
     correct_answer = questions[group_id - 1][q_index]['answer'].lower()
-
     is_correct = (answer == correct_answer)
     points = 0
 
-    if is_correct:
-        conn = db.get_db_connection()
-        correct_count = conn.execute(
-            'SELECT COUNT(*) FROM answers WHERE group_id = ? AND question_index = ? AND points_awarded > 0',
-            (group_id, q_index)
-        ).fetchone()[0]
-
-        point_values = [10, 8, 5, 2]
-        points = point_values[correct_count] if correct_count < len(point_values) else 0
-        
-        conn.execute(
-            'INSERT INTO answers (participant_id, question_index, group_id, points_awarded) VALUES (?, ?, ?, ?)',
-            (participant_id, q_index, group_id, points)
-        )
-        conn.execute(
-            'UPDATE participants SET total_score = total_score + ? WHERE id = ?', (points, participant_id)
-        )
-        conn.commit()
-        conn.close()
-        
-    # Always advance the question for the user
     conn = db.get_db_connection()
-    conn.execute('UPDATE participants SET current_question = current_question + 1 WHERE id = ?', (participant_id,))
-    conn.commit()
+    already_answered = conn.execute('SELECT 1 FROM answers WHERE participant_id = ? AND question_index = ?', (participant_id, q_index)).fetchone()
+
+    if not already_answered:
+        if is_correct:
+            correct_count = conn.execute(
+                'SELECT COUNT(*) FROM answers WHERE group_id = ? AND question_index = ? AND points_awarded > 0',
+                (group_id, q_index)
+            ).fetchone()[0]
+            point_values = [10, 8, 5, 2]
+            points = point_values[correct_count] if correct_count < len(point_values) else 0
+        
+        conn.execute('INSERT INTO answers (participant_id, question_index, group_id, points_awarded) VALUES (?, ?, ?, ?)',
+                     (participant_id, q_index, group_id, points))
+        if points > 0:
+            conn.execute('UPDATE participants SET total_score = total_score + ? WHERE id = ?', (points, participant_id))
+        
+        # NOTE: We no longer advance the question here. The proctor does.
+        conn.commit()
+    
     conn.close()
     
     emit('answer_result', {'correct': is_correct, 'points': points, 'correct_answer': correct_answer.capitalize()})
     update_scoreboard(group_id)
 
-# --- HELPER FUNCTIONS ---
+@socketio.on('get_final_scores')
+def handle_get_final_scores(data):
+    group_id = data.get('group_id')
+    if not group_id: return
+    conn = db.get_db_connection()
+    scores = conn.execute('SELECT name, total_score FROM participants WHERE group_id = ? AND is_proctor = FALSE ORDER BY total_score DESC, id ASC', (group_id,)).fetchall()
+    conn.close()
+    score_list = [{'name': s['name'], 'score': s['total_score']} for s in scores]
+    emit('final_scores', {'scores': score_list})
+
 def update_lobby_players(group_id):
-    """Sends the current list of players to everyone in the lobby."""
     conn = db.get_db_connection()
     players = conn.execute('SELECT name, is_proctor FROM participants WHERE group_id = ?', (group_id,)).fetchall()
     conn.close()
@@ -151,21 +168,17 @@ def update_lobby_players(group_id):
     socketio.emit('lobby_update', {'players': player_list}, room=f"group_{group_id}")
 
 def update_scoreboard(group_id):
-    """Sends updated scores to the group."""
     conn = db.get_db_connection()
     scores = conn.execute('SELECT name, total_score FROM participants WHERE group_id = ? AND is_proctor = FALSE ORDER BY total_score DESC, id ASC', (group_id,)).fetchall()
     conn.close()
     score_list = [{'name': s['name'], 'score': s['total_score']} for s in scores]
     socketio.emit('scoreboard_update', {'scores': score_list}, room=f"group_{group_id}")
 
-# --- LOGIN/AUTH API ---
 @app.route('/api/login', methods=['POST'])
 def api_login():
     data = request.get_json()
     name, code = data.get('name', '').strip(), data.get('code', '').strip().upper()
-
-    if not name or not code:
-        return jsonify({'success': False, 'message': 'Name and Group Code are required.'})
+    if not name or not code: return jsonify({'success': False, 'message': 'Name and Group Code are required.'})
 
     is_proctor = (name.upper() == 'PROCTOR')
     conn = db.get_db_connection()
@@ -195,10 +208,7 @@ def api_login():
     
     try:
         cursor = conn.cursor()
-        cursor.execute(
-            'INSERT INTO participants (name, group_id, session_id, is_proctor) VALUES (?, ?, ?, ?)',
-            (name, group_id, session_id, is_proctor)
-        )
+        cursor.execute('INSERT INTO participants (name, group_id, session_id, is_proctor) VALUES (?, ?, ?, ?)', (name, group_id, session_id, is_proctor))
         participant_id = cursor.lastrowid
         conn.commit()
     except conn.IntegrityError:
@@ -217,10 +227,9 @@ def api_login():
     session['is_proctor'] = is_proctor
     session['round_started'] = round_started
 
-    return jsonify({'success': True})
+    return jsonify({'success': True, 'is_proctor': is_proctor})
 
 if __name__ == '__main__':
-    print("-> Starting Flask server...")
-    print("-> Access the website at http://127.0.0.1:5000")
+    print("-> Starting Flask server at http://127.0.0.1:5000")
     print("-> To stop the server, press CTRL+C")
     socketio.run(app, debug=True, allow_unsafe_werkzeug=True)

@@ -2,7 +2,7 @@
 {% block title %}Question - Apex Gauntlet{% endblock %}
 {% block page_class %}question{% endblock %}
 {% block content %}
-<div class="card-container" id="questionContainer" style="display: none;">
+<div class="card-container" id="questionContainer" style="display: none;" data-group-id="{{ session.group_id }}">
     <div class="card question-card">
         <div class="question-header">
             <div id="progressText">Question 1 of 6</div>
@@ -23,13 +23,27 @@
             <input type="text" id="answerInput" placeholder="Type your answer here..." autocomplete="off">
         </div>
         <button id="submitAnswerBtn" class="btn btn-primary">Submit Answer</button>
+
+        <div id="proctorQuestionControls" class="proctor-controls" style="display: none;">
+            <button id="proctorNextBtn" class="btn btn-primary">Next Question</button>
+            <button id="proctorLeaderboardBtn" class="btn btn-secondary">View Leaderboard</button>
+        </div>
     </div>
 </div>
 
-<div id="gameOverContainer" class="card-container" style="display: none;">
-    <div class="card">
-        <h2>Round Complete!</h2>
-        <p>You have answered all the questions. Please wait for the proctor's instructions.</p>
+<div id="finalLeaderboardContainer" class="card-container" style="display: none;" data-group-id="{{ session.group_id }}">
+    <div class="card scoreboard-card">
+        <h1 class="event-title">Round Complete!</h1>
+        <h2 class="lobby-title">{{ session.group_name }} - Final Scores</h2>
+        <div class="scoreboard">
+            <div class="scoreboard-header">
+                <span>Rank</span>
+                <span>Name</span>
+                <span>Score</span>
+            </div>
+            <div id="finalScoreList" class="scoreboard-list"></div>
+        </div>
+        <p class="winner-announcement">The top 2 participants advance to the next round!</p>
         <a href="/logout" class="btn btn-secondary">Logout</a>
     </div>
 </div>
@@ -39,7 +53,7 @@
         <h2 id="resultTitle"></h2>
         <p id="resultPoints"></p>
         <p id="correctAnswerText"></p>
-        <button id="nextQuestionBtn" class="btn btn-primary">Next Question</button>
+        <p id="waitingForProctorMsg" class="wait-message">Waiting for proctor to continue...</p>
     </div>
 </div>
 {% endblock %}
