@@ -1,128 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Question {{ question_num }} - Mind Mashup</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-  </head>
-  <body>
-    <div class="container">
-      <header class="header">
-        <h1>🧠 Mind Mashup</h1>
-        <div class="progress-bar">
-          <div
-            class="progress-fill"
-            style="width: {{ (question_num / total_questions * 100) | round(0) }}%"
-          ></div>
-        </div>
-        <p class="question-progress">
-          Question {{ question_num }} of {{ total_questions }}
-        </p>
-      </header>
-
-      <div class="question-card">
+{% extends "layout.html" %}
+{% block title %}Question - Apex Gauntlet{% endblock %}
+{% block page_class %}question{% endblock %}
+{% block content %}
+<div class="card-container" id="questionContainer" style="display: none;">
+    <div class="card question-card">
         <div class="question-header">
-          <h2 class="category">{{ question.category }}</h2>
-          <div class="timer-container">
-            <div id="timer" class="timer" role="timer" aria-live="polite">
-              <span id="timeRemaining">{{ question.time_limit }}</span>
-            </div>
-            <!-- Sound/distraction button removed -->
-          </div>
+            <div id="progressText">Question 1 of 6</div>
+            <div id="categoryText">Category</div>
         </div>
-
-        {% if question.sequence_view_time %}
-        <div id="sequenceView" class="sequence-view">
-          <h3>
-            Memorize this sequence ({{ question.sequence_view_time }} seconds):
-          </h3>
-          <div class="sequence" id="sequenceDisplay">
-            {{ question.sequence_text | default("7, 14, 21, 28, 35, 42, 49, 56") }}
-          </div>
-          <div class="sequence-timer">
-            <span id="sequenceTimeRemaining">
-              {{ question.sequence_view_time | default(0) }}
-            </span>s
-          </div>
+        
+        <div class="timer-container">
+            <svg class="timer-svg" viewBox="0 0 100 100">
+                <circle class="timer-bg" cx="50" cy="50" r="45"></circle>
+                <path id="timer-path" class="timer-path" stroke-dasharray="283" stroke-dashoffset="0" d="M 50, 50 m -45, 0 a 45,45 0 1,0 90,0 a 45,45 0 1,0 -90,0"></path>
+            </svg>
+            <span id="timerText" class="timer-text">--:--</span>
         </div>
-        {% endif %}
-
-        <div
-          id="questionContent"
-          class="question-content"
-          {% if question.sequence_view_time %}style="display: none;"{% endif %}
-        >
-          <p class="question-text">{{ question.question | safe }}</p>
-
-          <div class="answer-section">
-            <input
-              type="text"
-              id="answerInput"
-              placeholder="Enter your answer..."
-              maxlength="200"
-              aria-label="Answer input"
-            />
-            <button
-              id="submitBtn"
-              class="btn-primary"
-              aria-label="Submit answer"
-            >
-              Submit Answer
-            </button>
-          </div>
+        
+        <p id="questionText" class="question-text">Loading question...</p>
+        
+        <div class="form-group">
+            <input type="text" id="answerInput" placeholder="Type your answer here..." autocomplete="off">
         </div>
-      </div>
-
-      <div class="action-buttons">
-        <a href="/scoreboard" class="btn-secondary">View Scoreboard</a>
-      </div>
+        <button id="submitAnswerBtn" class="btn btn-primary">Submit Answer</button>
     </div>
+</div>
 
-    <!-- Result Modal -->
-    <div
-      id="resultModal"
-      class="modal"
-      role="dialog"
-      aria-labelledby="resultTitle"
-      aria-hidden="true"
-    >
-      <div class="modal-content">
-        <h3 id="resultTitle">Result</h3>
-        <p id="resultMessage"></p>
-        <div id="explanation" class="explanation"></div>
-        <div id="scoreInfo" class="score-info"></div>
-        <button id="nextBtn" class="btn-primary">Continue</button>
-      </div>
+<div id="gameOverContainer" class="card-container" style="display: none;">
+    <div class="card">
+        <h2>Round Complete!</h2>
+        <p>You have answered all the questions. Please wait for the proctor's instructions.</p>
+        <a href="/logout" class="btn btn-secondary">Logout</a>
     </div>
+</div>
 
-    <!-- Time Up Modal -->
-    <div
-      id="timeUpModal"
-      class="modal"
-      role="dialog"
-      aria-labelledby="timeUpTitle"
-      aria-hidden="true"
-    >
-      <div class="modal-content">
-        <h3 id="timeUpTitle">⏰ Time's Up!</h3>
-        <p>You ran out of time for this question.</p>
-        <button id="timeUpNextBtn" class="btn-primary">Continue</button>
-      </div>
+<div id="resultModal" class="modal">
+    <div class="modal-content">
+        <h2 id="resultTitle"></h2>
+        <p id="resultPoints"></p>
+        <p id="correctAnswerText"></p>
+        <button id="nextQuestionBtn" class="btn btn-primary">Next Question</button>
     </div>
-
-    <!-- Scripts -->
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-    <script src="{{ url_for('static', filename='question.js') }}"></script>
-    <script>
-      initializeQuestionData(
-        {{ question | tojson | safe }},
-        {{ question.id }},
-        {{ question.time_limit }}
-      );
-    </script>
-  </body>
-</html>
+</div>
+{% endblock %}

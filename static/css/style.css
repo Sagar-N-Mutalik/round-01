@@ -1,0 +1,292 @@
+/* --- Base & Fonts --- */
+:root {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --primary-color: #e0245e; /* Neon Pink */
+    --secondary-color: #17bf63; /* Neon Green */
+    --text-color: #e1e1e1;
+    --text-muted: #8899a6;
+    --border-color: #38444d;
+    --font-title: 'Orbitron', sans-serif;
+    --font-body: 'Roboto', sans-serif;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    margin: 0;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* --- Main Structure --- */
+.main-container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* --- Typography --- */
+.event-title {
+    font-family: var(--font-title);
+    color: var(--primary-color);
+    font-size: 2.2rem;
+    margin: 0;
+    text-shadow: 0 0 8px var(--primary-color);
+}
+
+.event-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin: 0.5rem 0 2rem 0;
+}
+
+h2, h3 {
+    font-family: var(--font-title);
+    color: var(--text-color);
+}
+
+.username {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* --- Forms & Buttons --- */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+input[type="text"] {
+    width: 100%;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    color: var(--text-color);
+    font-size: 1rem;
+    font-family: var(--font-body);
+    transition: all 0.2s ease;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(224, 36, 94, 0.3);
+}
+
+.btn {
+    width: 100%;
+    padding: 1rem;
+    font-family: var(--font-title);
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(224, 36, 94, 0.4);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    margin-top: 1rem;
+}
+
+.btn-secondary:hover {
+    background-color: var(--border-color);
+    color: var(--text-color);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* --- Specific Page Styles --- */
+/* Lobby */
+#playerListContainer {
+    margin: 2rem 0;
+}
+.lobby-card ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.lobby-card li {
+    background-color: var(--bg-color);
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    text-align: left;
+}
+
+.lobby-card .proctor-tag {
+    color: var(--secondary-color);
+    font-weight: bold;
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+}
+
+/* Question Page */
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+#categoryText {
+    color: var(--secondary-color);
+}
+
+.timer-container {
+    position: relative;
+    margin: 2rem auto;
+    width: 120px;
+    height: 120px;
+}
+
+.timer-svg {
+    transform: rotate(-90deg);
+    width: 100%;
+    height: 100%;
+}
+
+.timer-bg {
+    fill: none;
+    stroke: var(--border-color);
+    stroke-width: 8;
+}
+
+.timer-path {
+    fill: none;
+    stroke: var(--secondary-color);
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s linear;
+}
+
+.timer-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-title);
+    font-size: 2rem;
+}
+
+.question-text {
+    font-size: 1.2rem;
+    min-height: 80px;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+/* Scoreboard */
+.scoreboard {
+    width: 100%;
+    margin-top: 1.5rem;
+}
+.scoreboard-header {
+    display: grid;
+    grid-template-columns: 1fr 3fr 2fr;
+    font-weight: bold;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+    color: var(--text-muted);
+}
+.scoreboard-list .score-row {
+    display: grid;
+    grid-template-columns: 1fr 3fr 2fr;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+    align-items: center;
+}
+.score-row:last-child {
+    border-bottom: none;
+}
+.score-rank { font-size: 1.5rem; font-family: var(--font-title); }
+.score-name { font-weight: bold; font-size: 1.1rem; text-align: left; }
+.score-points { font-size: 1.2rem; font-family: var(--font-title); color: var(--secondary-color); }
+
+
+/* --- Modal --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: var(--card-bg);
+    margin: auto;
+    padding: 2rem;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+}
+
+#resultTitle.correct { color: var(--secondary-color); }
+#resultTitle.incorrect { color: var(--primary-color); }
+#resultPoints { font-size: 1.5rem; font-weight: bold; margin: 1rem 0; }
+#correctAnswerText { color: var(--text-muted); }
+
+/* --- Utility & Responsive --- */
+.error-message {
+    color: var(--primary-color);
+    font-weight: bold;
+    margin-top: 1rem;
+    min-height: 20px;
+}
+
+@media (max-width: 480px) {
+    .event-title { font-size: 1.8rem; }
+    .card { padding: 1.5rem; }
+}

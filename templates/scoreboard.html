@@ -1,123 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Scoreboard - Mind Mashup</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-  </head>
-  <body>
-    <div class="container">
-      <header class="header">
-        <h1>🧠 Mind Mashup - Scoreboard</h1>
-        <p class="subtitle">Live Rankings</p>
-      </header>
-
-      <div class="scoreboard-card">
-        <div class="scoreboard-header">
-          <button id="refreshBtn" class="btn-secondary">🔄 Refresh</button>
-        </div>
-
-        <div class="leaderboard">
-          <div class="leaderboard-header">
-            <span class="rank-header">Rank</span>
-            <span class="name-header">Participant</span>
-            <span class="score-header">Score</span>
-            <span class="status-header">Status</span>
-          </div>
-
-          <div id="participantsList" class="participants-list">
-            {% for participant in participants %}
-            <div class="participant-row">
-              <span class="rank">{{ loop.index }}</span>
-              <span class="name">{{ participant.name }}</span>
-              <span class="score">{{ participant.total_score }} pts</span>
-              <span
-                class="status {{ 'completed' if participant.completed else 'in-progress' }}"
-              >
-                {{ 'Completed' if participant.completed else 'In Progress' }}
-              </span>
-              <span class="time-taken">
-                {% if participant.time_taken %} Time: {{ (participant.time_taken
-                // 60)|int }}m {{ (participant.time_taken % 60)|int }}s {% else
-                %} Time: N/A {% endif %}
-              </span>
+{% extends "layout.html" %}
+{% block title %}Scoreboard - {{ group_name }}{% endblock %}
+{% block page_class %}scoreboard{% endblock %}
+{% block content %}
+<div class="card-container">
+    <div class="card scoreboard-card" data-group-id="{{ group_id }}">
+        <h1 class="event-title">Live Scoreboard</h1>
+        <h2 class="lobby-title">{{ group_name }}</h2>
+        
+        <div class="scoreboard">
+            <div class="scoreboard-header">
+                <span>Rank</span>
+                <span>Name</span>
+                <span>Score</span>
             </div>
-            {% endfor %}
-          </div>
+            <div id="scoreList" class="scoreboard-list">
+                <p>Waiting for data...</p>
+            </div>
         </div>
-
-        <div class="scoreboard-info">
-          <h3>Scoring System</h3>
-          <div class="score-legend">
-            <div class="score-item">🥇 1st Correct: 10 pts</div>
-            <div class="score-item">🥈 2nd Correct: 8 pts</div>
-            <div class="score-item">🥉 3rd Correct: 5 pts</div>
-            <div class="score-item">4th Correct: 2 pts</div>
-            <div class="score-item bonus">🎁 Bonus Question: 15 pts</div>
-          </div>
-        </div>
-
-        <div class="action-buttons">
-          <a href="/" class="btn-primary">Join Competition</a>
-          <a href="/question" class="btn-secondary">Continue Questions</a>
-        </div>
-      </div>
     </div>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        document
-          .getElementById("refreshBtn")
-          .addEventListener("click", refreshScoreboard);
-
-        // Auto-refresh every 30 seconds
-        setInterval(refreshScoreboard, 30000);
-      });
-
-      function refreshScoreboard() {
-        fetch("/api/scoreboard")
-          .then((response) => response.json())
-          .then((data) => {
-            updateScoreboard(data);
-          })
-          .catch((error) => {
-            console.error("Error fetching scoreboard:", error);
-          });
-      }
-
-      function updateScoreboard(participants) {
-        const participantsList = document.getElementById("participantsList");
-        participantsList.innerHTML = "";
-
-        participants.forEach((participant, index) => {
-          const row = document.createElement("div");
-          row.className = "participant-row";
-
-          // Add medal emojis for top 3
-          let rank = index + 1;
-          let rankDisplay = rank;
-          if (rank === 1) rankDisplay = "🥇";
-          else if (rank === 2) rankDisplay = "🥈";
-          else if (rank === 3) rankDisplay = "🥉";
-
-          row.innerHTML = `
-                    <span class="rank">${rankDisplay}</span>
-                    <span class="name">${participant.name}</span>
-                    <span class="score">${participant.score} pts</span>
-                    <span class="status ${
-                      participant.completed ? "completed" : "in-progress"
-                    }">
-                        ${participant.completed ? "Completed" : "In Progress"}
-                    </span>
-                `;
-
-          participantsList.appendChild(row);
-        });
-      }
-    </script>
-  </body>
-</html>
+</div>
+{% endblock %}

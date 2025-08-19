@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block title %}Lobby - {{ session.group_name }}{% endblock %}
+{% block page_class %}lobby{% endblock %}
+{% block content %}
+<div class="card-container">
+    <div class="card lobby-card" data-group-id="{{ session.group_id }}">
+        <h2 class="lobby-title">{{ session.group_name }} - Lobby</h2>
+        <p class="welcome-message">Welcome, <strong class="username">{{ session.name }}</strong>!</p>
+        
+        <div id="playerListContainer">
+            <h3>Players in Lobby:</h3>
+            <ul id="playerList">
+                </ul>
+        </div>
+        
+        {% if session.is_proctor %}
+        <div id="proctorControls">
+            <p>You are the proctor for this group.</p>
+            <button id="startRoundBtn" class="btn btn-primary">[ START ROUND ]</button>
+            <a href="/scoreboard/{{ session.group_id }}" target="_blank" class="btn btn-secondary">View Live Scoreboard</a>
+        </div>
+        {% else %}
+        <p id="waitingMessage">Waiting for the Proctor to begin the round...</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
