@@ -1,0 +1,51 @@
+[
+  {
+    "id": 0,
+    "category": "Tech Riddle",
+    "time_limit": 180,
+    "question": "I am a protocol that helps you browse the web securely. I use port 443 by default and my name starts with the same letter as 'Hypertext.' What am I?",
+    "answer": "HTTPS",
+    "explanation": "HTTPS (HyperText Transfer Protocol Secure) is the secure version of HTTP, using port 443 by default."
+  },
+  {
+    "id": 1,
+    "category": "Maths Problem",
+    "time_limit": 300,
+    "question": "If a train travels 240 miles in 3 hours, and then increases its speed by 20 mph for the next 2 hours, how many total miles did it travel?",
+    "answer": "400",
+    "explanation": "First 3 hours: 240 miles at 80 mph. Next 2 hours: 100 mph × 2 hours = 200 miles. Total: 240 + 200 = 400 miles."
+  },
+  {
+    "id": 2,
+    "category": "Reasoning Puzzle",
+    "time_limit": 300,
+    "question": "Three friends Alice, Bob, and Charlie are standing in a line. Alice is not first, Bob is not last, and Charlie is not in the middle. What is the order from first to last?",
+    "answer": "Bob, Charlie, Alice",
+    "explanation": "If Alice is not first, Bob is not last, and Charlie is not middle, then Bob must be first, Charlie second, and Alice third."
+  },
+  {
+    "id": 3,
+    "category": "Sequence Recall",
+    "time_limit": 330,
+    "sequence_view_time": 30,
+    "question": "Memorize this sequence: 7, 14, 21, 28, 35, 42, 49, 56. What is the next number?",
+    "answer": "63",
+    "explanation": "This is the sequence of multiples of 7. The next number after 56 (7×8) is 63 (7×9)."
+  },
+  {
+    "id": 4,
+    "category": "Sudoku (4×4)",
+    "time_limit": 300,
+    "question": "Complete this 4×4 Sudoku puzzle. Enter the missing numbers in order from left to right, top to bottom (e.g., '1234'): \n\n[ 3 ] [ _ ] [ 1 ] [ _ ]\n[ _ ] [ 1 ] [ _ ] [ 3 ]\n[ 1 ] [ _ ] [ 3 ] [ _ ]\n[ _ ] [ 3 ] [ _ ] [ 1 ]",
+    "answer": "2424",
+    "explanation": "The completed grid has missing numbers: row 1: 2,4; row 2: 2,4; row 3: 2,4; row 4: 2,4. Reading left to right: 2424."
+  },
+  {
+    "id": 5,
+    "category": "Bonus Question",
+    "time_limit": 600,
+    "question": "A man lives on the 20th floor of a building. Every morning he takes the elevator down to the ground floor. When he comes home, he takes the elevator to the 10th floor and walks the rest of the way... except on rainy days, when he takes the elevator all the way to the 20th floor. Why?",
+    "answer": "He is too short to reach the 20th floor button",
+    "explanation": "The man is too short to reach the button for the 20th floor, but can reach the 10th floor button. On rainy days, he has an umbrella which he can use to press the higher button."
+  }
+]

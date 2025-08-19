@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mind Mashup - Competition</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>🧠 Mind Mashup</h1>
+        <p class="subtitle">Round 1 • 6:00 PM – 7:00 PM</p>
+      </header>
+
+      <div class="welcome-card">
+        <h2>Welcome to the Competition!</h2>
+        <p>
+          Get ready for 6 challenging questions across different categories:
+        </p>
+
+        <div class="categories">
+          <div class="category">
+            <span class="category-name">Tech Riddle</span
+            ><span class="category-time">3 min</span>
+          </div>
+          <div class="category">
+            <span class="category-name">Maths Problem</span
+            ><span class="category-time">5 min</span>
+          </div>
+          <div class="category">
+            <span class="category-name">Reasoning Puzzle</span
+            ><span class="category-time">5 min</span>
+          </div>
+          <div class="category">
+            <span class="category-name">Sequence Recall</span
+            ><span class="category-time">5.5 min</span>
+          </div>
+          <div class="category">
+            <span class="category-name">Sudoku (4×4)</span
+            ><span class="category-time">5 min</span>
+          </div>
+          <div class="category bonus">
+            <span class="category-name">Bonus Question</span
+            ><span class="category-time">10 min</span>
+          </div>
+        </div>
+
+        <div class="scoring-info">
+          <h3>Scoring System</h3>
+          <div class="score-grid">
+            <div class="score-item">1st Correct: <strong>10 pts</strong></div>
+            <div class="score-item">2nd Correct: <strong>8 pts</strong></div>
+            <div class="score-item">3rd Correct: <strong>5 pts</strong></div>
+            <div class="score-item">4th Correct: <strong>2 pts</strong></div>
+            <div class="score-item bonus">
+              Bonus Question: <strong>15 pts</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="start-section">
+          <input
+            type="text"
+            id="participantName"
+            placeholder="Enter your name"
+            maxlength="50"
+          />
+          <button id="startBtn" class="btn-primary">Start Competition</button>
+        </div>
+
+        <div class="links">
+          <a href="/scoreboard" class="link">🌊 View Scoreboard</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="errorModal" class="modal">
+      <div class="modal-content">
+        <h3>Error</h3>
+        <p id="errorMessage"></p>
+        <button class="btn-primary" onclick="closeModal()">OK</button>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Question {{ question_num }} - Mind Mashup</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>🧠 Mind Mashup</h1>
+        <div class="progress-bar">
+          <div
+            class="progress-fill"
+            style="width: {{ (question_num / total_questions * 100) | round(0) }}%"
+          ></div>
+        </div>
+        <p class="question-progress">
+          Question {{ question_num }} of {{ total_questions }}
+        </p>
+      </header>
+
+      <div class="question-card">
+        <div class="question-header">
+          <h2 class="category">{{ question.category }}</h2>
+          <div class="timer-container">
+            <div id="timer" class="timer" role="timer" aria-live="polite">
+              <span id="timeRemaining">{{ question.time_limit }}</span>
+            </div>
+            <!-- Sound/distraction button removed -->
+          </div>
+        </div>
+
+        {% if question.sequence_view_time %}
+        <div id="sequenceView" class="sequence-view">
+          <h3>
+            Memorize this sequence ({{ question.sequence_view_time }} seconds):
+          </h3>
+          <div class="sequence" id="sequenceDisplay">
+            {{ question.sequence_text | default("7, 14, 21, 28, 35, 42, 49, 56") }}
+          </div>
+          <div class="sequence-timer">
+            <span id="sequenceTimeRemaining">
+              {{ question.sequence_view_time | default(0) }}
+            </span>s
+          </div>
+        </div>
+        {% endif %}
+
+        <div
+          id="questionContent"
+          class="question-content"
+          {% if question.sequence_view_time %}style="display: none;"{% endif %}
+        >
+          <p class="question-text">{{ question.question | safe }}</p>
+
+          <div class="answer-section">
+            <input
+              type="text"
+              id="answerInput"
+              placeholder="Enter your answer..."
+              maxlength="200"
+              aria-label="Answer input"
+            />
+            <button
+              id="submitBtn"
+              class="btn-primary"
+              aria-label="Submit answer"
+            >
+              Submit Answer
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <a href="/scoreboard" class="btn-secondary">View Scoreboard</a>
+      </div>
+    </div>
+
+    <!-- Result Modal -->
+    <div
+      id="resultModal"
+      class="modal"
+      role="dialog"
+      aria-labelledby="resultTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-content">
+        <h3 id="resultTitle">Result</h3>
+        <p id="resultMessage"></p>
+        <div id="explanation" class="explanation"></div>
+        <div id="scoreInfo" class="score-info"></div>
+        <button id="nextBtn" class="btn-primary">Continue</button>
+      </div>
+    </div>
+
+    <!-- Time Up Modal -->
+    <div
+      id="timeUpModal"
+      class="modal"
+      role="dialog"
+      aria-labelledby="timeUpTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-content">
+        <h3 id="timeUpTitle">⏰ Time's Up!</h3>
+        <p>You ran out of time for this question.</p>
+        <button id="timeUpNextBtn" class="btn-primary">Continue</button>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='question.js') }}"></script>
+    <script>
+      initializeQuestionData(
+        {{ question | tojson | safe }},
+        {{ question.id }},
+        {{ question.time_limit }}
+      );
+    </script>
+  </body>
+</html>
