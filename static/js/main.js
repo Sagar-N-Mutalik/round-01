@@ -135,7 +135,6 @@ function initQuestionPage(socket) {
     
     socket.on('answer_result', (data) => {
         if (!isProctor) {
-            clearInterval(timerInterval);
             showResult(data);
         }
     });
@@ -179,13 +178,13 @@ function initQuestionPage(socket) {
         const answer = answerInput.value;
         if (isProctor || submitBtn.disabled) return;
         
-        clearInterval(timerInterval);
         answerInput.disabled = true;
         submitBtn.disabled = true;
 
         socket.emit('submit_answer', {
             q_index: currentQuestionIndex,
-            answer: answer
+            answer: answer,
+            time_taken: timePassed
         });
     }
 
@@ -195,7 +194,7 @@ function initQuestionPage(socket) {
     function showResult(data) {
         resultTitle.textContent = data.correct ? 'Correct!' : 'Incorrect';
         resultTitle.className = data.correct ? 'correct' : 'incorrect';
-        resultPoints.textContent = `+${data.points} Points`;
+        resultPoints.textContent = data.message;
         correctAnswerText.textContent = data.correct ? '' : `Correct Answer: ${data.correct_answer}`;
         resultModal.style.display = 'flex';
     }
@@ -224,7 +223,9 @@ function initQuestionPage(socket) {
             const timeLeft = timeLimit - timePassed;
             if (timeLeft < 0) {
                 clearInterval(timerInterval);
-                submitAnswer();
+                if (!submitBtn.disabled) {
+                    submitAnswer();
+                }
                 return;
             }
             updateTimerDisplay(timeLeft);
@@ -295,6 +296,7 @@ function initScoreboardPage(socket) {
             row.innerHTML = `
                 <span class="score-rank">${rank}</span>
                 <span class="score-name">${player.name}</span>
+                <span class="score-time">${player.time_taken ? player.time_taken.toFixed(2) + 's' : '-'}</span>
                 <span class="score-points">${player.score}</span>
             `;
             scoreList.appendChild(row);

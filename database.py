@@ -1,8 +1,8 @@
-
 import sqlite3
 import os
 import secrets
 import json
+import time
 
 # --- DATABASE CONFIG ---
 INSTANCE_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'instance')
@@ -32,7 +32,8 @@ def setup_database():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL UNIQUE,
             code TEXT NOT NULL UNIQUE,
-            round_started BOOLEAN DEFAULT FALSE
+            round_started BOOLEAN DEFAULT FALSE,
+            current_question_index INTEGER DEFAULT 0
         )
     ''')
 
@@ -42,7 +43,6 @@ def setup_database():
             name TEXT NOT NULL,
             group_id INTEGER NOT NULL,
             session_id TEXT NOT NULL UNIQUE,
-            current_question INTEGER DEFAULT 0,
             total_score INTEGER DEFAULT 0,
             is_proctor BOOLEAN DEFAULT FALSE,
             FOREIGN KEY (group_id) REFERENCES groups(id),
@@ -57,30 +57,29 @@ def setup_database():
             question_index INTEGER NOT NULL,
             group_id INTEGER NOT NULL,
             points_awarded INTEGER DEFAULT 0,
+            time_taken REAL,
             FOREIGN KEY (participant_id) REFERENCES participants(id),
-            FOREIGN KEY (group_id) REFERENCES groups(id)
+            FOREIGN KEY (group_id) REFERENCES groups(id),
+            UNIQUE(participant_id, question_index)
         )
     ''')
 
     # Populate 25 groups with unique codes
     group_codes = []
     for i in range(1, 26):
-        code = secrets.token_hex(3).upper() # e.g., A1B2C3
+        code = secrets.token_hex(3).upper()
         cursor.execute('INSERT INTO groups (name, code) VALUES (?, ?)', (f'Group {i}', code))
         group_codes.append({'group_name': f'Group {i}', 'code': code})
 
     conn.commit()
     conn.close()
 
-    # Save group codes to a file for easy reference
     with open('group_codes.json', 'w') as f:
         json.dump(group_codes, f, indent=4)
         
     print("Database setup complete. 25 groups created.")
     print("IMPORTANT: Group access codes have been saved to 'group_codes.json'.")
 
-
-# --- HELPER FUNCTIONS ---
 
 def get_questions():
     """Loads questions from the JSON file."""
@@ -92,5 +91,4 @@ def get_questions():
         return []
 
 if __name__ == '__main__':
-    """Run this script directly from your terminal to initialize the database."""
     setup_database()

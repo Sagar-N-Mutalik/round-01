@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, session, jsonify, redirect, u
 from flask_socketio import SocketIO, join_room, emit
 import database as db
 import secrets
+import time
 
 # --- APP SETUP ---
 app = Flask(__name__)
@@ -69,7 +70,7 @@ def handle_start_round(data):
     group_id = int(group_id_str)
 
     conn = db.get_db_connection()
-    conn.execute('UPDATE groups SET round_started = TRUE WHERE id = ?', (group_id,))
+    conn.execute('UPDATE groups SET round_started = TRUE, current_question_index = 0 WHERE id = ?', (group_id,))
     conn.commit()
     conn.close()
     
@@ -80,14 +81,17 @@ def handle_start_round(data):
     
     socketio.emit('round_started', {
         'first_question': first_question,
+        'q_index': 0,
         'total_q': len(group_questions)
     }, room=room)
 
-# **FIXED**: Proctor-controlled next question logic
+
+# **THIS IS THE CORRECTED FUNCTION**
 @socketio.on('proctor_next_question')
 def handle_proctor_next_question(data):
-    if not session.get('is_proctor'): return
-    
+    if not session.get('is_proctor'): 
+        return
+
     group_id = int(data.get('group_id'))
     current_q_index = int(data.get('q_index'))
     next_q_index = current_q_index + 1
@@ -97,9 +101,8 @@ def handle_proctor_next_question(data):
     group_questions = questions[group_id - 1]
     
     if next_q_index < len(group_questions):
-        # **NEW**: Advance all participants in the group to the next question
         conn = db.get_db_connection()
-        conn.execute('UPDATE participants SET current_question = ? WHERE group_id = ? AND is_proctor = FALSE', (next_q_index, group_id))
+        conn.execute('UPDATE groups SET current_question_index = ? WHERE id = ?', (next_q_index, group_id))
         conn.commit()
         conn.close()
         
@@ -119,35 +122,43 @@ def handle_submit_answer(data):
     participant_id, group_id = session['participant_id'], session['group_id']
     q_index = data.get('q_index')
     answer = data.get('answer', '').strip().lower()
-
-    questions = db.get_questions()
-    correct_answer = questions[group_id - 1][q_index]['answer'].lower()
-    is_correct = (answer == correct_answer)
-    points = 0
+    time_taken = data.get('time_taken')
 
     conn = db.get_db_connection()
     already_answered = conn.execute('SELECT 1 FROM answers WHERE participant_id = ? AND question_index = ?', (participant_id, q_index)).fetchone()
 
     if not already_answered:
-        if is_correct:
-            correct_count = conn.execute(
-                'SELECT COUNT(*) FROM answers WHERE group_id = ? AND question_index = ? AND points_awarded > 0',
-                (group_id, q_index)
-            ).fetchone()[0]
-            point_values = [10, 8, 5, 2]
-            points = point_values[correct_count] if correct_count < len(point_values) else 0
+        questions = db.get_questions()
+        correct_answer = questions[group_id - 1][q_index]['answer'].lower()
+        is_correct = (answer == correct_answer)
         
-        conn.execute('INSERT INTO answers (participant_id, question_index, group_id, points_awarded) VALUES (?, ?, ?, ?)',
-                     (participant_id, q_index, group_id, points))
-        if points > 0:
-            conn.execute('UPDATE participants SET total_score = total_score + ? WHERE id = ?', (points, participant_id))
-        
-        # NOTE: We no longer advance the question here. The proctor does.
+        conn.execute(
+            'INSERT INTO answers (participant_id, question_index, group_id, time_taken, points_awarded) VALUES (?, ?, ?, ?, ?)',
+            (participant_id, q_index, group_id, time_taken, 0)
+        )
         conn.commit()
+        
+        if is_correct:
+            correct_answers = conn.execute(
+                'SELECT id, participant_id FROM answers WHERE group_id = ? AND question_index = ? AND time_taken IS NOT NULL ORDER BY time_taken ASC',
+                (group_id, q_index)
+            ).fetchall()
+            
+            point_values = [10, 8, 5, 2]
+            for i, ans in enumerate(correct_answers):
+                points = point_values[i] if i < len(point_values) else 0
+                conn.execute('UPDATE answers SET points_awarded = ? WHERE id = ?', (points, ans['id']))
+            conn.commit()
+
+        participants = conn.execute('SELECT id FROM participants WHERE group_id = ? AND is_proctor = FALSE', (group_id,)).fetchall()
+        for p in participants:
+            total_score = conn.execute('SELECT SUM(points_awarded) FROM answers WHERE participant_id = ?', (p['id'],)).fetchone()[0] or 0
+            conn.execute('UPDATE participants SET total_score = ? WHERE id = ?', (total_score, p['id']))
+        conn.commit()
+
+        emit('answer_result', {'correct': is_correct, 'message': 'Your answer has been recorded!'})
     
     conn.close()
-    
-    emit('answer_result', {'correct': is_correct, 'points': points, 'correct_answer': correct_answer.capitalize()})
     update_scoreboard(group_id)
 
 @socketio.on('get_final_scores')
@@ -169,9 +180,18 @@ def update_lobby_players(group_id):
 
 def update_scoreboard(group_id):
     conn = db.get_db_connection()
-    scores = conn.execute('SELECT name, total_score FROM participants WHERE group_id = ? AND is_proctor = FALSE ORDER BY total_score DESC, id ASC', (group_id,)).fetchall()
+    current_q_index_row = conn.execute('SELECT current_question_index FROM groups WHERE id = ?', (group_id,)).fetchone()
+    current_q_index = current_q_index_row['current_question_index'] if current_q_index_row else 0
+    
+    scores = conn.execute('''
+        SELECT p.name, p.total_score, a.time_taken
+        FROM participants p
+        LEFT JOIN answers a ON p.id = a.participant_id AND a.question_index = ?
+        WHERE p.group_id = ? AND p.is_proctor = FALSE 
+        ORDER BY p.total_score DESC, a.time_taken ASC
+    ''', (current_q_index, group_id)).fetchall()
     conn.close()
-    score_list = [{'name': s['name'], 'score': s['total_score']} for s in scores]
+    score_list = [{'name': s['name'], 'score': s['total_score'], 'time_taken': s['time_taken']} for s in scores]
     socketio.emit('scoreboard_update', {'scores': score_list}, room=f"group_{group_id}")
 
 @app.route('/api/login', methods=['POST'])
